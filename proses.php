@@ -1,18 +1,11 @@
 <?php
-
-ini_set('serialize_precision', -1);
-
 require_once("Expression.php");
 
 use Expression as MathExpression;
 
-$metode = $_POST['metode'];
-$fungsi = $_POST['fungsi'];
-$esilon = $_POST['esilon'];
-$selang_a = $_POST['selang_a'];
-$selang_b = $_POST['selang_b'];
-
-echo json_encode(hitungPnl($metode, $fungsi, $selang_a, $selang_b, $esilon));
+/* =============================================================================================== */
+/* ====================================== START FUNCTION ========================================= */
+/* =============================================================================================== */
 
 // fungsi menghitung menggunakan metode biseksi bagi dua
 function hitungPnl($metode, $fungsi, $selang_a, $selang_b, $esilon, $count = 1, $data = [])
@@ -30,7 +23,7 @@ function hitungPnl($metode, $fungsi, $selang_a, $selang_b, $esilon, $count = 1, 
 		}
 
 		// step 4 hitung fungsi f(c)
-		$fungsi_c = hitungFungsi($fungsi, $c, true);
+		$fungsi_c = hitungFungsi($fungsi, $c);
 
 		// isi variable data untuk ditampilkan di aplikasi
 		$data[$count] = [
@@ -40,6 +33,8 @@ function hitungPnl($metode, $fungsi, $selang_a, $selang_b, $esilon, $count = 1, 
 			'fungsi_b' => (string) $fungsi_b,
 			'c' => (string) $c,
 			'fungsi_c' => (string) $fungsi_c,
+			'tanda' => cekFungsiCSamaFungsiA($fungsi_c, $fungsi_a) ? "Bertanda Sama" : "Bertanda Beda",
+			'memenuhi' => cekMutlakFungsiCSamaEsilon($fungsi_c, $esilon) ? "Sudah Memenuhi" : "Belum Memenuhi",
 		];
 
 		// step 6 cek apakah mutlak f(c) <= esilon
@@ -60,18 +55,19 @@ function hitungPnl($metode, $fungsi, $selang_a, $selang_b, $esilon, $count = 1, 
 				$data[] = "Maximal 30 iterasi sudah dijalankan namun belum menemui hasil yang diinginkan";
 				return $data;
 			}
-			// (recursive) ulang iterasinya sampai kondisi tepenuhi
+			
+			// (recursive) ulang iterasinya dengan parameter baru sampai kondisi tepenuhi
 			return hitungPnl($metode, $fungsi, $selang_a, $selang_b, $esilon, $count, $data);
 		}
 	}
 }
 
 // fungsi menghitung menggunakan fungsi tertentu
-function hitungFungsi($fungsi, $selang)
+function hitungFungsi($fungsi, $x)
 {
 	$e = new MathExpression();
 	$e->evaluate('f(x) = '. $fungsi);
-	return $e->evaluate('f((' . $selang . '))');
+	return $e->evaluate('f((' . $x . '))');
 }
 
 // fungsi mengecek apakah tanda f(c) sama dengan tanda f(a)
@@ -95,4 +91,15 @@ function cekMutlakFungsiCSamaEsilon($fungsi_c, $esilon)
 	}
 }
 
-?>
+/* =============================================================================================== */
+/* ======================================== END FUNCTION ========================================= */
+/* =============================================================================================== */
+
+$metode = $_POST['metode'];
+$fungsi = $_POST['fungsi'];
+$esilon = $_POST['esilon'];
+$selang_a = $_POST['selang_a'];
+$selang_b = $_POST['selang_b'];
+
+// hitung Persamaan Non Linear Berdasarkan Parameter Inputan
+echo json_encode(hitungPnl($metode, $fungsi, $selang_a, $selang_b, $esilon));

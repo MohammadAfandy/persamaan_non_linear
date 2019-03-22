@@ -7,7 +7,7 @@
 <body>
 	<div class="container" style="margin-top: 50px;">
 		<div id="loading" style="display: none;">
-			<span style="z-index: 9999; top: 50%; left: 50%; position: fixed; border: 1px solid">Processing ......</span>
+			<span style="z-index: 9999; top: 50%; left: 50%; position: fixed; border: 1px solid">Processing ...</span>
 		</div>
 		<form id="form_input" class="form-inline">
 			<div class="row mb-2">
@@ -38,7 +38,7 @@
 			</div>
 		</form>
 		
-		<table id="tbl_data" class="table table-bordered table-striped">
+		<table id="tbl_data" class="table table-bordered table-striped" style="max-width: 1200px;">
 			<thead></thead>
 			<tbody></tbody>
 		</table>
@@ -76,34 +76,38 @@
 							<th>Nilai f(a)</th>
 							<th>Nilai f(b)</th>
 							<th>Nilai f(c)</th>
+							<th>Tanda f(c) ke f(a)</th>
+							<th>f(c) <= Esilon ?</th>
 							</tr>
 							`;
 
 							if (result !=  null) {
 								$.each(result, function(key, value) {
 									if (key <= 30) {
-										row_table_body += "<tr><td>" + key + "</td>";
+										row_table_body += "<tr>";
+										row_table_body += "<td>" + key + "</td>";
 										row_table_body += "<td>" + parseFloat(value.selang_a) + "</td>";
 										row_table_body += "<td>" + parseFloat(value.selang_b) + "</td>";
 										row_table_body += "<td>" + parseFloat(value.c) + "</td>";
 										row_table_body += "<td>" + parseFloat(value.fungsi_a) + "</td>";
 										row_table_body += "<td>" + parseFloat(value.fungsi_b) + "</td>";
 										row_table_body += "<td>" + parseFloat(value.fungsi_c) + "</td>";
+										row_table_body += "<td>" + value.tanda + "</td>";
+										row_table_body += "<td>" + value.memenuhi + "</td>";
 										row_table_body += "</tr>";
 										$(".hasil").html("Nilai C = " + value.c);
 									} else {
-										row_table_body += "<tr><td colspan=7>" + value + "</td></tr>";
+										row_table_body += "<tr><td colspan=9>" + value + "</td></tr>";
 										$(".hasil").html("");
 									}
 								});
 							} else {
-								row_table_body += "<tr><td colspan=7 class=text-center>Tidak Ada Data</td></tr>";
+								row_table_body += "<tr><td colspan=9 class=text-center>Tidak Ada Data / Ada Kesalahan Input</td></tr>";
 							}
 
 							$("#tbl_data").find("thead").html(row_table_head);
 							$("#tbl_data").find("tbody").html(row_table_body);
 						}, 1000);
-						
 					},
 					complete: function() {
 						setTimeout(function() {
