@@ -23,6 +23,13 @@
 				<div class="col">
 					<input type="text" class="form-control" name="selang_b" id="selang_b" placeholder="Selang B">
 				</div>
+				<div class="col">
+					<select name="metode" class="form-control">
+						<option value="">-- Pilih Metode --</option>
+						<option value="biseksi">Biseksi Bagi Dua</option>
+						<option value="regula">Regula Falsi</option>
+					</select>
+				</div>
 			</div>
 			<div class="row">
 				<div class="col">
@@ -55,13 +62,9 @@
 					dataType: "json",
 					beforeSend: function() { $("#loading").show(); },
 					success: function(result) {
-						// console.log(result);
-						// $.each(result, function(key,value) {
-						// 	console.log(value.c);
-						// });
-						// alert("a");
 						$("#tbl_data").find("thead").empty();
 						$("#tbl_data").find("tbody").empty();
+						$(".hasil").html("");
 						setTimeout(function() {
 							var row_table_body = "";
 							row_table_head = `
