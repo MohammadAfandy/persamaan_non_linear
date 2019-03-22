@@ -11,13 +11,14 @@ use Expression as MathExpression;
 function hitungPnl($metode, $fungsi, $selang_a, $selang_b, $esilon, $count = 1, $data = [])
 {
 	if (!empty($metode) && ($fungsi != '') && ($selang_a != '') && ($selang_b != '') && ($esilon != '')) {
+
 		// step 2 (hitung fungsi f(a) dan f(b))
 		$fungsi_a = hitungFungsi($fungsi, $selang_a);
 		$fungsi_b = hitungFungsi($fungsi, $selang_b);
 
 		// step 3 hitung c berdasarkan metode yang digunakan
 		if ($metode == 'biseksi') {
-			$c = ($selang_a + $selang_b) / 2;	
+			$c = ($selang_a + $selang_b) / 2;
 		} else if ($metode == 'regula') {
 			$c = $selang_b - (($fungsi_b / ($fungsi_b - $fungsi_a)) * ($selang_b - $selang_a));
 		}

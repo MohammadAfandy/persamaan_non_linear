@@ -77,7 +77,7 @@
 							<th>Nilai f(b)</th>
 							<th>Nilai f(c)</th>
 							<th>Tanda f(c) ke f(a)</th>
-							<th>f(c) <= Esilon ?</th>
+							<th>|f(c)| <= Esilon ?</th>
 							</tr>
 							`;
 
